@@ -245,11 +245,91 @@ public class image extends JPanel
       
       else if(choice.equalsIgnoreCase("lighten"))
       {
-    	  
+    	  double lightenValue = 0.0;
+    	  boolean cont = true;
+    	  while(cont)
+    	  {
+    		  Scanner lightenValueScanner = new Scanner(System.in);
+    		  System.out.println("please enter a value that you wish to lighten the image by:");
+    		  if(!lightenValueScanner.hasNextDouble())
+    		  {
+    			  System.out.println("You need to enter a double!!!");
+    			  cont = true;
+    		  }
+    		  else
+    		  {
+    			  lightenValue = lightenValueScanner.nextDouble();
+    			  cont = false;
+    		  }
+    	  }
+    	  for(int con = 0; con < image.getHeight(); con ++)
+    	  {
+    		  for(int count = 0; count < image.getWidth(); count++)
+    		  {
+    			  IMPixel mainPixel = new IMPixel(image, count, con);
+    			  double lightenedRed = (double)mainPixel.getRed() + lightenValue;
+    			  double lightenedGreen = (double)mainPixel.getGreen() + lightenValue;
+    			  double lightenedBlue = (double)mainPixel.getBlue() + lightenValue;
+    			  if(lightenedRed > 255)
+    			  {
+    				  lightenedRed = 255;
+    			  }
+    			  if(lightenedGreen > 255)
+    			  {
+    				  lightenedGreen = 255;
+    			  }
+    			  if(lightenedBlue > 255)
+    			  {
+    				  lightenedBlue = 255;
+    			  }
+    			  Color lightenedColor = new Color((int)lightenedRed, (int)lightenedGreen, (int)lightenedBlue);
+    			  image.setRGB(count, con, lightenedColor.getRGB());
+    		  }
+    	  }
       }
-      
       else if(choice.equalsIgnoreCase("darken"))
       {
+    	  double darkenValue = 0.0;
+    	  boolean cont = true;
+    	  while(cont)
+    	  {
+    		  Scanner darkenValueScanner = new Scanner(System.in);
+    		  System.out.println("please enter a value that you wish to lighten the image by:");
+    		  if(!darkenValueScanner.hasNextDouble())
+    		  {
+    			  System.out.println("You need to enter a double!!!");
+    			  cont = true;
+    		  }
+    		  else
+    		  {
+    			  darkenValue = darkenValueScanner.nextDouble();
+    			  cont = false;
+    		  }
+    	  }
+    	  for(int con = 0; con < image.getHeight(); con ++)
+    	  {
+    		  for(int count = 0; count < image.getWidth(); count++)
+    		  {
+    			  IMPixel mainPixel = new IMPixel(image, count, con);
+    			  double darkenedRed = (double)mainPixel.getRed() - darkenValue;
+    			  double darkenedGreen = (double)mainPixel.getGreen() - darkenValue;
+    			  double darkenedBlue = (double)mainPixel.getBlue() - darkenValue;
+    			  if(darkenedRed < 0)
+    			  {
+    				  darkenedRed = 0;
+    			  }
+    			  if(darkenedGreen < 0)
+    			  {
+    				  darkenedGreen = 0;
+    			  }
+    			  if(darkenedBlue < 0)
+    			  {
+    				  darkenedBlue = 0;
+    			  }
+    			  Color darkenedColor = new Color((int)darkenedRed, (int)darkenedGreen, (int)darkenedBlue);
+    			  image.setRGB(count, con, darkenedColor.getRGB());
+    		  }
+    	  }
     	  
       }
     }
