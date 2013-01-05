@@ -8,7 +8,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
+import java.util.StringTokenizer;
+
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -195,7 +198,7 @@ public class image extends JPanel
 	      }
 	      else if (choice.equalsIgnoreCase("sharpen"))
 	      {
-	    	  
+	    	  System.out.println("Comming soon...");
 	      }
 	      
 	      else if(choice.equalsIgnoreCase("contrast"))
@@ -331,9 +334,99 @@ public class image extends JPanel
 	    		  }
 	    	  }
 	      }
+	      else if(choice.equalsIgnoreCase("adjust"))
+	      {
+	    	  boolean adjustTest = true;
+	    	  final ArrayList<String> colors = new ArrayList<String>(Arrays.asList("red", "green", "blue"));
+	    	  final ArrayList<String> actions = new ArrayList<String>(Arrays.asList("increase", "decrease", "raise", "lower"));
+	    	  String color = "";
+	    	  String action = "";
+	    	  int value = 0;
+	    	  
+	    	  while(adjustTest)
+	    	  {
+		    	  Scanner adjustScanner = new Scanner(System.in);
+		    	  System.out.println("Please enter the command in the following form: \"color\" \"action\" \*value\"");
+		    	  if(!adjustScanner.hasNextLine())
+		    	  {
+		    		  System.out.println("Please review the syntax...");
+		    		  adjustTest = true;
+		    	  }
+		    	  else
+		    	  {
+		    		  String intermediary = adjustScanner.nextLine();
+		    		  StringTokenizer a = new StringTokenizer(intermediary, " ");
+		    		  int numOfTokens = a.countTokens();
+		    		  if((numOfTokens < 0) || (numOfTokens > 3))
+		    		  {
+		    			  System.out.println("Please review the syntax");
+		    			  adjustTest = true;
+		    		  }
+		    		  else
+		    		  {
+		    			  String colorIntermediary = a.nextToken().toLowerCase();
+			    		  String actionIntermediary = a.nextToken().toLowerCase();
+			    		  String valueIntermediary = a.nextToken();
+			    		  boolean inter = isInt(valueintermediary1);
+			    		  if((inter == false) || (!colors.contains(colorIntermediary)) || (!actions.contains(actionIntermediary))) 
+			    		  {
+			    			  System.out.println("Please review the syntax...");
+			    			  adjustTest = true;
+			    		  }
+			    		  else
+			    		  {
+			    			  color = colorIntermediary;
+			    			  action = actionIntermediary
+			    			  value = Integer.parseInt(valueIntermediary)
+			    			  adjustTest = false;
+			    		  }
+		    		  }
+		    	  }
+	    	  }
+	    	  
+	    	  if(action.equals("increase") || action.equals("raise"))
+	    	  {
+	    		  for(int con = 0; con < image.getHeight(); con ++)
+	    		  {
+	    			  for(int count = 0; count < image.getWidth(); count ++)
+	    			  {
+	    				  IMPixel pixel = new IMPixel(image, count, con);
+	    				  int colorValue = pixel.getGivenValue(color) + value;
+	    				  if(colorValue > 255)
+	    				  {
+	    					  colorValue = 255;
+	    				  }
+	    				  if(color.equals("red"))
+	    				  {
+	    					  Color color = new Color(colorValue, pixel.getGreen(), pixel.getBlue());
+	    					  image.setRGB(count, con, color.getRGB());
+	    				  }
+	    				  else if(color.equals("green"))
+	    				  {
+	    					  Color color = new Color(pixel.getRed(), colorValue, pixel.getBlue());
+	    					  image.setRGB(count, con, color.getRGB());
+	    				  }
+	    				  else if(color.equals("blue"))
+	    				  {
+	    					  Color color = new Color(pixel.getRed(), pixel.getGreen(), colorValue);
+	    					  image.setRGB(count, con, color.getRGB());
+	    				  }
+	    			  }
+	    		  }
+	    	  }
+	      }
 	    }
-	  }
 	
+	  public boolean isInt(String input)
+	  {
+		  try {
+		        Integer.valueOf(string);
+		        return true;
+		    } catch (NumberFormatException e) {
+		        return false;
+		    }
+	  }
+	    
 	  public image(BufferedImage image)
 	  {
 	    image = image;

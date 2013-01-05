@@ -69,4 +69,25 @@ public class IMPixel
   {
     return this.green;
   }
+  
+  public int getGivenValue(String input)
+  {
+	  if(input.equalsIgnoreCase("red"))
+	  {
+		  return this.red();
+	  }
+	  else if(input.equalsIgnoreCase("green"))
+	  {
+		  return this.green();
+	  }
+	  else if(input.equalsIgnoreCase("blue"))
+	  {
+		  return this.blue();
+	  }
+	  else
+	  {
+		  System.out.println("internal Error #00001");
+		  return 0000000;
+	  }
+  }
 }
