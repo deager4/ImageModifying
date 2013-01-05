@@ -25,7 +25,7 @@ import javax.swing.JScrollPane;
  */
 public class image extends JPanel
 {
-	public static final String[] commands = {"Smooth", "Sharpen", "Contrast", "Lighten", "Darken", "Noise Reduce"};
+	public static final String[] commands = {"Smooth", "Adjust", "Sharpen", "Contrast", "Lighten", "Darken", "Noise Reduce"};
 	public static BufferedImage image;
 	public static BufferedImage image2;
 	Dimension size = new Dimension();
@@ -49,7 +49,7 @@ public class image extends JPanel
 	      }
 	      String choice = "";
 	      choice = choice1.nextLine();
-	      if ((!choice.equalsIgnoreCase("smooth")) && (!choice.equalsIgnoreCase("contrast")) && (!choice.equalsIgnoreCase("Lighten")) && (!choice.equalsIgnoreCase("Darken")) && (!choice.equalsIgnoreCase("sharpen")) && (!choice.equalsIgnoreCase("noise reduce")))
+	      if ((!choice.equalsIgnoreCase("smooth")) && (!choice.equalsIgnoreCase("adjust")) && (!choice.equalsIgnoreCase("contrast")) && (!choice.equalsIgnoreCase("Lighten")) && (!choice.equalsIgnoreCase("Darken")) && (!choice.equalsIgnoreCase("sharpen")) && (!choice.equalsIgnoreCase("noise reduce")))
 	      {
 	        gotItWrong = true;
 	      }
@@ -346,7 +346,7 @@ public class image extends JPanel
 	    	  while(adjustTest)
 	    	  {
 		    	  Scanner adjustScanner = new Scanner(System.in);
-		    	  System.out.println("Please enter the command in the following form: \"color\" \"action\" \*value\"");
+		    	  System.out.println("Please enter the command in the following form: \"color\" \"action\" \"value\"");
 		    	  if(!adjustScanner.hasNextLine())
 		    	  {
 		    		  System.out.println("Please review the syntax...");
@@ -367,7 +367,7 @@ public class image extends JPanel
 		    			  String colorIntermediary = a.nextToken().toLowerCase();
 			    		  String actionIntermediary = a.nextToken().toLowerCase();
 			    		  String valueIntermediary = a.nextToken();
-			    		  boolean inter = isInt(valueintermediary1);
+			    		  boolean inter = isInt(valueIntermediary);
 			    		  if((inter == false) || (!colors.contains(colorIntermediary)) || (!actions.contains(actionIntermediary))) 
 			    		  {
 			    			  System.out.println("Please review the syntax...");
@@ -376,8 +376,8 @@ public class image extends JPanel
 			    		  else
 			    		  {
 			    			  color = colorIntermediary;
-			    			  action = actionIntermediary
-			    			  value = Integer.parseInt(valueIntermediary)
+			    			  action = actionIntermediary;
+			    			  value = Integer.parseInt(valueIntermediary);
 			    			  adjustTest = false;
 			    		  }
 		    		  }
@@ -398,29 +398,59 @@ public class image extends JPanel
 	    				  }
 	    				  if(color.equals("red"))
 	    				  {
-	    					  Color color = new Color(colorValue, pixel.getGreen(), pixel.getBlue());
-	    					  image.setRGB(count, con, color.getRGB());
+	    					  Color newColor = new Color(colorValue, pixel.getGreen(), pixel.getBlue());
+	    					  image.setRGB(count, con, newColor.getRGB());
 	    				  }
 	    				  else if(color.equals("green"))
 	    				  {
-	    					  Color color = new Color(pixel.getRed(), colorValue, pixel.getBlue());
-	    					  image.setRGB(count, con, color.getRGB());
+	    					  Color newColor = new Color(pixel.getRed(), colorValue, pixel.getBlue());
+	    					  image.setRGB(count, con, newColor.getRGB());
 	    				  }
 	    				  else if(color.equals("blue"))
 	    				  {
-	    					  Color color = new Color(pixel.getRed(), pixel.getGreen(), colorValue);
-	    					  image.setRGB(count, con, color.getRGB());
+	    					  Color newColor = new Color(pixel.getRed(), pixel.getGreen(), colorValue);
+	    					  image.setRGB(count, con, newColor.getRGB());
 	    				  }
 	    			  }
 	    		  }
 	    	  }
+	    	  else if(action.equals("decrease") || action.equals("lower"))
+	    	  {
+	    		  for(int con = 0; con < image.getHeight(); con ++)
+	    		  {
+	    			  for(int count = 0; count < image.getWidth(); count ++)
+	    			  {
+	    				  IMPixel pixel = new IMPixel(image, count, con);
+	    				  int colorValue = pixel.getGivenValue(color) - value;
+	    				  if(colorValue < 0)
+	    				  {
+	    					  colorValue = 0;
+	    				  }
+	    				  if(color.equals("red"))
+	    				  {
+	    					  Color newColor = new Color(colorValue, pixel.getGreen(), pixel.getBlue());
+	    					  image.setRGB(count, con, newColor.getRGB());
+	    				  }
+	    				  else if(color.equals("green"))
+	    				  {
+	    					  Color newColor = new Color(pixel.getRed(), colorValue, pixel.getBlue());
+	    					  image.setRGB(count, con, newColor.getRGB());
+	    				  }
+	    				  else if(color.equals("blue"))
+	    				  {
+	    					  Color newColor = new Color(pixel.getRed(), pixel.getGreen(), colorValue);
+	    					  image.setRGB(count, con, newColor.getRGB());
+	    				  }
+	    			  }
+	    	  }
 	      }
 	    }
-	
-	  public boolean isInt(String input)
+	  }
+	}
+	  public static boolean isInt(String input)
 	  {
 		  try {
-		        Integer.valueOf(string);
+		        Integer.valueOf(input);
 		        return true;
 		    } catch (NumberFormatException e) {
 		        return false;

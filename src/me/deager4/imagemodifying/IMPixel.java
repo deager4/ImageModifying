@@ -74,15 +74,15 @@ public class IMPixel
   {
 	  if(input.equalsIgnoreCase("red"))
 	  {
-		  return this.red();
+		  return this.red;
 	  }
 	  else if(input.equalsIgnoreCase("green"))
 	  {
-		  return this.green();
+		  return this.green;
 	  }
 	  else if(input.equalsIgnoreCase("blue"))
 	  {
-		  return this.blue();
+		  return this.blue;
 	  }
 	  else
 	  {
