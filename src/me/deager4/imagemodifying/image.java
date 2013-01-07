@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 import java.util.StringTokenizer;
-
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -447,7 +446,13 @@ public class image extends JPanel
 	    }
 	  }
 	}
-	  public static boolean isInt(String input)
+
+	/**
+	 * Finds out if a input String can be parsed as an int, I don't like errors
+	 * @param input a string input, hopefuly a number
+	 * @return
+	 */
+	public static boolean isInt(String input)
 	  {
 		  try {
 		        Integer.valueOf(input);
